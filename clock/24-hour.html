@@ -152,6 +152,13 @@
             opacity: 0.82;
         }
 
+        .minute-label.guide-label {
+            fill: #7b8380;
+            font-size: 9px;
+            font-weight: 500;
+            opacity: 0.68;
+        }
+
         .dial-title,
         .dial-note {
             fill: #56615b;
@@ -489,6 +496,18 @@
             label.textContent = toDozenal(minute === 0 ? 60 : minute);
             minuteLabelLayer.appendChild(label);
         }
+
+        // Show the dozenal digit transition without competing with the main labels.
+        [7, 8, 9, 10, 11].forEach((minute) => {
+            const angle = (180 + minute * 6) * Math.PI / 180 - Math.PI / 2;
+            const label = document.createElementNS(SVG_NS, "text");
+
+            label.setAttribute("x", center + Math.cos(angle) * 163);
+            label.setAttribute("y", center + Math.sin(angle) * 163 + 1);
+            label.setAttribute("class", "minute-label guide-label");
+            label.textContent = toDozenal(minute);
+            minuteLabelLayer.appendChild(label);
+        });
 
         // The dial runs noon → midnight → noon, placing decimal 12 (dozenal 10) on top.
         for (let index = 0; index < 24; index += 1) {
