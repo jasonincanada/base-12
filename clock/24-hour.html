@@ -411,7 +411,7 @@
             label.setAttribute("x", center + Math.cos(angle) * 163);
             label.setAttribute("y", center + Math.sin(angle) * 163 + 1);
             label.setAttribute("class", "minute-label");
-            label.textContent = toDozenal(minute);
+            label.textContent = toDozenal(minute === 0 ? 60 : minute);
             minuteLabelLayer.appendChild(label);
         }
 
