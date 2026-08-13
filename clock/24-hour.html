@@ -127,6 +127,36 @@
             font-weight: 400;
         }
 
+        .minute-scale-ring {
+            fill: none;
+            stroke: #8b6b35;
+            stroke-width: 1;
+            opacity: 0.38;
+        }
+
+        .minute-tick {
+            stroke: #56615b;
+            stroke-width: 0.8;
+            opacity: 0.46;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .minute-tick.six-minute {
+            stroke: #8b6b35;
+            stroke-width: 1.5;
+            opacity: 0.72;
+        }
+
+        .minute-label {
+            fill: #68716b;
+            font-family: "Cambria Math", "STIX Two Math", "Segoe UI Symbol", sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            opacity: 0.82;
+        }
+
         .dial-title,
         .dial-note {
             fill: #56615b;
@@ -238,7 +268,7 @@
         <div class="clock-shell">
             <svg id="clock" viewBox="0 0 600 600" role="img" aria-labelledby="clock-title clock-description">
                 <title id="clock-title">Base-12 24-hour analog clock</title>
-                <desc id="clock-description">A working 24-hour analog clock with noon at the top, twelve graduations per hour, and a digital dozenal time display.</desc>
+                <desc id="clock-description">A working 24-hour analog clock with noon at the top, twelve graduations per hour, an inner sixty-minute scale labelled in dozenal, and a digital dozenal time display.</desc>
 
                 <defs>
                     <radialGradient id="dial" cx="43%" cy="36%" r="68%">
@@ -253,6 +283,12 @@
 
                 <g id="graduations" aria-hidden="true"></g>
                 <g id="numerals" aria-hidden="true"></g>
+
+                <g id="minute-scale" aria-hidden="true">
+                    <circle class="minute-scale-ring" cx="300" cy="300" r="187"/>
+                    <g id="minute-graduations"></g>
+                    <g id="minute-labels"></g>
+                </g>
 
                 <text class="dial-title" x="300" y="218">FULL-DAY CLOCK</text>
                 <text class="dial-note" x="300" y="234">NOON ON TOP</text>
@@ -285,7 +321,8 @@
 
         <p class="legend">
             <strong>&#x1D4B3; = dek (ten)</strong> · <strong>&#x218B; = el (eleven)</strong> · <strong>10 = twelve</strong><br>
-            Noon is at the top; the hour hand completes one revolution per day.
+            Noon is at the top; the hour hand completes one revolution per day.<br>
+            The subtle inner ring is the 60-minute scale, numbered in dozenal from the bottom.
         </p>
     </main>
 
@@ -296,6 +333,8 @@
         const EL = "\u218B";
         const graduationLayer = document.getElementById("graduations");
         const numeralLayer = document.getElementById("numerals");
+        const minuteGraduationLayer = document.getElementById("minute-graduations");
+        const minuteLabelLayer = document.getElementById("minute-labels");
         const hourHand = document.getElementById("hour-hand");
         const minuteHand = document.getElementById("minute-hand");
         const secondHand = document.getElementById("second-hand");
@@ -327,6 +366,32 @@
 
         function twoDigitDozenal(number) {
             return toDozenal(number).padStart(2, "0");
+        }
+
+        // The conventional 60-minute cycle gets its own subtle inner scale.
+        // Its zero is at the bottom, matching the minute hand at the start of each hour.
+        for (let minute = 0; minute < 60; minute += 1) {
+            const tick = document.createElementNS(SVG_NS, "line");
+            const isSixMinute = minute % 6 === 0;
+
+            tick.setAttribute("x1", center);
+            tick.setAttribute("x2", center);
+            tick.setAttribute("y1", 113);
+            tick.setAttribute("y2", isSixMinute ? 125 : 119);
+            tick.setAttribute("transform", `rotate(${180 + minute * 6} ${center} ${center})`);
+            tick.setAttribute("class", isSixMinute ? "minute-tick six-minute" : "minute-tick");
+            minuteGraduationLayer.appendChild(tick);
+        }
+
+        for (let minute = 0; minute < 60; minute += 6) {
+            const angle = (180 + minute * 6) * Math.PI / 180 - Math.PI / 2;
+            const label = document.createElementNS(SVG_NS, "text");
+
+            label.setAttribute("x", center + Math.cos(angle) * 163);
+            label.setAttribute("y", center + Math.sin(angle) * 163 + 1);
+            label.setAttribute("class", "minute-label");
+            label.textContent = toDozenal(minute);
+            minuteLabelLayer.appendChild(label);
         }
 
         // The dial runs noon → midnight → noon, placing decimal 12 (dozenal 10) on top.
