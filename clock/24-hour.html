@@ -122,11 +122,6 @@
             dominant-baseline: middle;
         }
 
-        .numeral.dek-symbol {
-            font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif;
-            font-weight: 400;
-        }
-
         .minute-scale-ring {
             fill: none;
             stroke: #8b6b35;
@@ -341,7 +336,7 @@
         </div>
 
         <p class="legend">
-            <strong>&#x1D4B3; = dek (ten)</strong> · <strong>&#x218B; = el (eleven)</strong> · <strong>10 = twelve</strong><br>
+            <strong>X = dek (ten)</strong> · <strong>E = el (eleven)</strong> · <strong>10 = twelve</strong><br>
             Noon is at the top; the hour hand completes one revolution per day.<br>
             The subtle inner ring is the 60-minute scale, numbered in dozenal from the bottom.
         </p>
@@ -350,8 +345,9 @@
     <script>
         const SVG_NS = "http://www.w3.org/2000/svg";
         const center = 300;
-        const DEK = "\u{1D4B3}";
-        const EL = "\u218B";
+        // ASCII dozenal digits render reliably without special font support.
+        const DEK = "X";
+        const EL = "E";
         const graduationLayer = document.getElementById("graduations");
         const numeralLayer = document.getElementById("numerals");
         const minuteGraduationLayer = document.getElementById("minute-graduations");
@@ -425,7 +421,6 @@
             numeral.setAttribute("x", center + Math.cos(angle) * 220);
             numeral.setAttribute("y", center + Math.sin(angle) * 220 + 1);
             numeral.setAttribute("class", "numeral");
-            if (label.includes(DEK)) numeral.classList.add("dek-symbol");
             numeral.textContent = label;
             numeralLayer.appendChild(numeral);
         }
