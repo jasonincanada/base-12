@@ -177,21 +177,13 @@
         }
 
         .digital-window {
-            fill: #c7cecc;
-        }
-
-        .digital-recess-top {
-            fill: url(#digital-recess-top);
-        }
-
-        .digital-recess-left {
-            fill: url(#digital-recess-left);
+            fill: rgba(199, 206, 204, 0.86);
         }
 
         .digital-time {
             fill: var(--ink);
             font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Cambria Math", monospace;
-            font-size: 16px;
+            font-size: 15px;
             font-variant-numeric: tabular-nums;
             text-anchor: middle;
             dominant-baseline: middle;
@@ -201,7 +193,7 @@
         .standard-time {
             fill: var(--ink);
             font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
-            font-size: 13px;
+            font-size: 12px;
             font-variant-numeric: tabular-nums;
             text-anchor: middle;
             dominant-baseline: middle;
@@ -210,7 +202,7 @@
         .digital-kind {
             fill: #53605f;
             font-family: system-ui, sans-serif;
-            font-size: 6px;
+            font-size: 5.5px;
             font-weight: 700;
             letter-spacing: 0.08em;
             text-anchor: middle;
@@ -348,17 +340,6 @@
                         <stop offset="0.72" stop-color="#f2ead8"/>
                         <stop offset="1" stop-color="#d8cbae"/>
                     </radialGradient>
-                    <linearGradient id="digital-recess-top" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" stop-color="#35413f" stop-opacity="0.28"/>
-                        <stop offset="1" stop-color="#35413f" stop-opacity="0"/>
-                    </linearGradient>
-                    <linearGradient id="digital-recess-left" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0" stop-color="#35413f" stop-opacity="0.24"/>
-                        <stop offset="1" stop-color="#35413f" stop-opacity="0"/>
-                    </linearGradient>
-                    <clipPath id="digital-window-clip">
-                        <rect x="225" y="376" width="150" height="56" rx="2"/>
-                    </clipPath>
                 </defs>
 
                 <circle cx="300" cy="300" r="292" fill="url(#dial)"/>
@@ -384,16 +365,12 @@
                 </g>
 
                 <g aria-label="Dozenal and standard digital time">
-                    <rect class="digital-window" x="225" y="376" width="150" height="56" rx="2"/>
-                    <g clip-path="url(#digital-window-clip)" aria-hidden="true">
-                        <rect class="digital-recess-top" x="225" y="376" width="150" height="5"/>
-                        <rect class="digital-recess-left" x="225" y="376" width="5" height="56"/>
-                    </g>
-                    <line class="digital-divider" x1="231" y1="404" x2="369" y2="404"/>
-                    <text id="digital-time" class="digital-time" x="286" y="391">00:00:00</text>
-                    <text class="digital-kind" x="350" y="391">DOZENAL</text>
-                    <text id="standard-time" class="standard-time" x="286" y="418">12:00:00 AM</text>
-                    <text class="digital-kind" x="350" y="418">STANDARD</text>
+                    <rect class="digital-window" x="233" y="369" width="134" height="49" rx="2"/>
+                    <line class="digital-divider" x1="239" y1="393.5" x2="361" y2="393.5"/>
+                    <text id="digital-time" class="digital-time" x="283" y="381.5">00:00:00</text>
+                    <text class="digital-kind" x="345" y="381.5">DOZENAL</text>
+                    <text id="standard-time" class="standard-time" x="283" y="406.5">12:00:00 AM</text>
+                    <text class="digital-kind" x="345" y="406.5">STANDARD</text>
                 </g>
 
                 <g id="second-hand" class="hand">
